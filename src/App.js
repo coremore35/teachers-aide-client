@@ -9,8 +9,9 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Navbar } from 'react-bootstrap'
 
+// const baseURL = process.env.REACT_APP_BASEURL
 const baseURL = 'http://localhost:3000';
-
+console.log("BASEURL", baseURL)
 
 class App extends React.Component {
   constructor(props) {
