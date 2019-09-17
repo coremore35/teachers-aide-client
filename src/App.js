@@ -160,7 +160,7 @@ class App extends React.Component {
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="mr-auto">
                 <Nav.Link href="/">Home</Nav.Link>
-                <Nav.Link href="/TeacherList" onClick={this.toggleJumbo}>Teacher List</Nav.Link>
+                <Nav.Link to="/TeacherList" onClick={this.toggleJumbo}>Teacher List</Nav.Link>
               </Nav>
 
             </Navbar.Collapse>
