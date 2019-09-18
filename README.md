@@ -1,68 +1,151 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Project Name
 
-## Available Scripts
+> Quick Check &#9989;
 
-In the project directory, you can run:
+## Table of contents
 
-### `npm start`
+- [General info](#general-info)
+- [Screenshots](#screenshots)
+- [Technologies](#technologies)
+- [Setup](#setup)
+- [Features](#features)
+- [Status](#status)
+- [Contact](#contact)
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## General info
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+Spending six years teaching in public schools, I always struggled to keep track of student understanding on the fly. The purpose of this app is to give teachers the ability to quickly assess student understanding. Once the data has been recorded, teachers will be able to visualize student understanding and better support students who need remediation or is ready for a challenge.
 
-### `npm test`
+## Screenshots
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![Example welcome](/public/images/welcome.png)
+![Example keyword entry](/public/images/lessons.png)
+![Example grade entries](/public/images/grades.png)
 
-### `npm run build`
+## Technologies
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- HTML5
+- CSS3
+- Javascript ES6
+- React
+- Rails
+- PostgreSQL
+- Bootstrap for React
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+## Setup
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Code Examples
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+`
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+    ActiveRecord::Schema.define(version: 2019_09_17_181120) do
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
-## Learn More
+  create_table "grades", force: :cascade do |t|
+    t.integer "student_grade"
+    t.bigint "lesson_id", null: false
+    t.bigint "student_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["lesson_id"], name: "index_grades_on_lesson_id"
+    t.index ["student_id"], name: "index_grades_on_student_id"
+  end
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  create_table "lessons", force: :cascade do |t|
+    t.string "lesson_name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "teacher_id"
+    t.bigint "grades_id"
+    t.index ["grades_id"], name: "index_lessons_on_grades_id"
+    t.index ["teacher_id"], name: "index_lessons_on_teacher_id"
+  end
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  create_table "students", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "grades_id"
+    t.index ["grades_id"], name: "index_students_on_grades_id"
+  end
 
-### Code Splitting
+  create_table "teachers", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+  add_foreign_key "grades", "lessons"
+  add_foreign_key "grades", "students"
+  add_foreign_key "lessons", "grades", column: "grades_id"
+  add_foreign_key "lessons", "teachers"
+  add_foreign_key "students", "grades", column: "grades_id"
+end
 
-### Analyzing the Bundle Size
+`
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+`
+ handleChange(event) {
+        this.setState({
+            [event.currentTarget.id]: event.currentTarget.value
+        });
+        console.log("lesson_name: ", this.state.lesson_name)
+    }
 
-### Making a Progressive Web App
+    async handleSubmit(event) {
+        event.preventDefault();
+        console.log('Selected teacher: ', this.props.selectedTeacher.id)
+        const response = await axios.post(`${baseURL}/lessons`,
+            {
+                lesson_name: this.state.lesson_name,
+                teacher_id: this.props.selectedTeacher.id
+            })
+        this.setState({
+            lesson_name: '',
+            teacher_id: ''
+        })
+        this.props.handleAddLesson(response.data)
+        this.setRedirect()
+        this.toggle()
+    }
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+    async handleDelete(deletedLesson) {
+        console.log("deleted Lesson", deletedLesson.id)
+        await axios.delete(`${baseURL}/lessons/${deletedLesson.id}`);
+        this.setRedirect()
+    }
 
-### Advanced Configuration
+`
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+## Features
 
-### Deployment
+List of features ready and TODOs for future development
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+- RESTful API
+- Responsive web-design
+- Takes user input to display student grades 
 
-### `npm run build` fails to minify
+To-do list:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- At this point, I still need to add the create new student, add grades, and add charts to help visualize the data.
+
+## Status
+
+Project is: _in progress_, with plenty of room for growth as I gain more skills that can be applied.
+
+## Contact
+
+Created by Corey Morrison  corey.neil.morrison@gmail.com
+
+- feel free to contact me!
+
+Thank you
+
+```
+
+```
