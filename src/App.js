@@ -9,9 +9,9 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Nav, Navbar } from 'react-bootstrap'
 
-const baseURL = process.env.REACT_APP_BASE_URL
-// const baseURL = 'http://localhost:3000';
-// const baseURL = 'http://localhost:3000';
+// const baseURL = process.env.REACT_APP_BASE_URL
+const baseURL = 'http://localhost:3000';
+
 console.log("BASEURL", baseURL)
 
 class App extends React.Component {
@@ -54,6 +54,7 @@ class App extends React.Component {
     this.setState({
       teachers: data
     })
+    console.log("Teacher data set:", this.state.teachers)
   }
 
   async getLessonData() {
@@ -160,7 +161,7 @@ class App extends React.Component {
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="mr-auto">
                 <Nav.Link href="/">Home</Nav.Link>
-                <Nav.Link to="/TeacherList" onClick={this.toggleJumbo}>Teacher List</Nav.Link>
+                <Nav.Link href="/TeacherList" onClick={this.toggleJumbo}>Teacher List</Nav.Link>
               </Nav>
 
             </Navbar.Collapse>
@@ -199,6 +200,7 @@ class App extends React.Component {
             render={(props) => (
               <LessonCheck
                 students={this.state.students}
+                lessonName={this.state.selectedLesson.lesson_name}
                 selectedLesson={this.state.selectedLesson.grades}
                 grades={this.state.grades}
 

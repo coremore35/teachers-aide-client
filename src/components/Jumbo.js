@@ -4,12 +4,8 @@ import { BrowserRouter as Router, Route, Link }
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Jumbotron, Button } from 'react-bootstrap'
 
-// const baseURL = 'http://localhost:3000';
-const baseURL = process.env.REACT_APP_BASE_URL
 
-
-
-function Jumbo(props) {
+function Jumbo() {
     return (
         <Jumbotron>
             <h1>Welcome Teachers!</h1>

@@ -66,6 +66,39 @@ class TeacherList extends React.Component {
             <div className="container">
                 <>
                     <h3>Teacher List</h3>
+                    {(this.state.modal === false) ?
+                        <Button variant="info" onClick={this.toggle}>
+                            Add New Teacher
+                        </Button>
+                        : (<Modal show={this.toggle} >
+                            <Form onSubmit={this.handleSubmit} className='add-teacher-form'>
+                                <Modal.Header>
+                                    <Modal.Title>Add Teacher</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <Form.Label htmlFor='name' />
+                                    <Form.Control
+                                        type='text'
+                                        id='name'
+                                        name='name'
+                                        onChange={this.handleChange}
+                                        placeholder='Your Name ex. Mr. Morrison'
+                                    />
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Button variant="secondary" onClick={this.toggle}>
+                                        Close
+                                    </Button>
+                                    <Button
+                                        type='submit'
+                                        variant="primary"
+                                        className='primary'
+                                    >Submit</Button>
+
+
+                                </Modal.Footer>
+                            </Form>
+                        </Modal>)}
                     <h5>Select Your Name to See Assignments</h5>
 
 
@@ -100,39 +133,7 @@ class TeacherList extends React.Component {
 
                     </div>
                 </>
-                {(this.state.modal === false) ?
-                    <Button variant="info" onClick={this.toggle}>
-                        Add New Teacher
-                    </Button>
-                    : (<Modal show={this.toggle} >
-                        <Form onSubmit={this.handleSubmit} className='add-teacher-form'>
-                            <Modal.Header>
-                                <Modal.Title>Add Teacher</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                                <Form.Label htmlFor='name' />
-                                <Form.Control
-                                    type='text'
-                                    id='name'
-                                    name='name'
-                                    onChange={this.handleChange}
-                                    placeholder='Your Name ex. Mr. Morrison'
-                                />
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={this.toggle}>
-                                    Close
-                                </Button>
-                                <Button
-                                    type='submit'
-                                    variant="primary"
-                                    className='primary'
-                                >Submit</Button>
 
-
-                            </Modal.Footer>
-                        </Form>
-                    </Modal>)}
 
                 {this.state.redirect && <Redirect to={`/teacher`} />}
 

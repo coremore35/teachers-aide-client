@@ -48,7 +48,7 @@ class LessonCheck extends React.Component {
         return (
             <div className="container" style={{ marginTop: 50 }}>
                 <h4>Lesson Check</h4>
-                <h5>Lesson: {this.props.selectedLesson.lesson_name}</h5>
+                <h5>Lesson: {this.props.lessonName}</h5>
 
                 <BootstrapTable
                     striped
